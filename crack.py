@@ -45,7 +45,13 @@ def guess_keys(text, num, table, alphabet):
     keys = [guess_key(part, table, alphabet) for part in parts]
     return keys
 
-"""
+def fix_key(error, fix, key):
+    t = key[fix]
+    key[fix] = key[error]
+    key[error] = t
+    return key
+
+
 with open('cipher.txt') as f:
     cipher = f.read()
 
@@ -55,9 +61,15 @@ alphabet = get_alphabet()
 key = guess_key(cipher, table, alphabet)
 print("Key:", json.dumps(key))
 
-print(decode(cipher, key))
-"""
+# manual fixes
+key = fix_key('d', 'l', key)
+key = fix_key('g', 'f', key)
+key = fix_key('s', 'h', key)
+key = fix_key('m', 'w', key)
 
+print(decode(cipher, key))
+
+"""
 with open('poly_cipher.txt') as f:
     cipher = f.read()
 
@@ -67,3 +79,4 @@ alphabet = get_alphabet()
 keys = guess_keys(cipher, 3, table, alphabet)
 print("Key:", json.dumps(keys))
 print(poly_decode(cipher, keys))
+"""
